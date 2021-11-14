@@ -230,7 +230,7 @@ else:
     countries = country(region)
     if len(os.listdir(flagsdir)) == 0:
         for x in countries:
-            code = pycountry.countries.get(name=x)
+            code = pycountry.countries.lookup(x)
             if(code == None):
                 print("I could not find the flag for " + x + ". Please try to locate it yourself.")
             else:
