@@ -219,7 +219,7 @@ APIKEY = "quickstart-QUdJIGlzIGNvbWluZy4uLi4K" #WARNING, THIS IS THE DEFAULT API
 
 timestr = time.strftime("%Y%m%d-%H%M%S")
 region, index = pick(['America','Asia','Europe', 'Africa', 'Pacific', 'US States'], "Please select a region")
-curdir = os.path.dirname(sys.argv[0])
+curdir = os.path.dirname(os.path.realpath(__file__))
 flagsdir = curdir + '/Flags_' + region + "_" + timestr
 os.makedirs(flagsdir, exist_ok=True) 
 if(region == "US States"):
