@@ -1,15 +1,14 @@
 # -*- coding: utf-8 -*-
 import requests
 countriesflags = []
-import ctypes, sys
+import sys
 from time import sleep
 from tqdm import tqdm
-import pycountry
 import os
 from shutil import copyfile
 from pick import pick
 import time
-import ctypes, os
+import os
 def UsStates():
     state_names = ["Alaska", "Alabama", "Arkansas", "Arizona", "California", "Colorado", "Connecticut", "Delaware", "Florida", "Georgia", "Hawaii", "Iowa", "Idaho", "Illinois", "Indiana", "Kansas", "Kentucky", "Louisiana", "Massachusetts", "Maryland", "Maine", "Michigan", "Minnesota", "Missouri", "Mississippi", "Montana", "North Carolina", "North Dakota", "Nebraska", "New Hampshire", "New Jersey", "New Mexico", "Nevada", "New York", "Ohio", "Oklahoma", "Oregon", "Pennsylvania", "Rhode Island", "South Carolina", "South Dakota", "Tennessee", "Texas", "Utah", "Virginia", "Vermont", "Washington", "Wisconsin", "West Virginia", "Wyoming"]
     return state_names
@@ -84,7 +83,7 @@ def country(region):
     {'timezones': ['Asia/Jerusalem'], 'code': 'IL', 'continent': 'Asia', 'name': 'Israel', 'capital': 'Jerusalem'},
     {'timezones': ['Asia/Calcutta'], 'code': 'IN', 'continent': 'Asia', 'name': 'India', 'capital': 'New Delhi'},
     {'timezones': ['Asia/Baghdad'], 'code': 'IQ', 'continent': 'Asia', 'name': 'Iraq', 'capital': 'Baghdad'},
-    {'timezones': ['Asia/Tehran'], 'code': 'IR', 'continent': 'Asia', 'name': 'Iran', 'capital': 'Tehran'},
+    {'timezones': ['Asia/Tehran'], 'code': 'IR', 'continent': 'Asia', 'name': 'Islamic Republic of Iran', 'capital': 'Tehran'},
     {'timezones': ['Atlantic/Reykjavik'], 'code': 'IS', 'continent': 'Europe', 'name': 'Iceland', 'capital': 'Reykjav\xc3\xadk'},
     {'timezones': ['Europe/Rome'], 'code': 'IT', 'continent': 'Europe', 'name': 'Italy', 'capital': 'Rome'},
     {'timezones': ['America/Jamaica'], 'code': 'JM', 'continent': 'North America', 'name': 'Jamaica', 'capital': 'Kingston'},
@@ -93,7 +92,7 @@ def country(region):
     {'timezones': ['Africa/Nairobi'], 'code': 'KE', 'continent': 'Africa', 'name': 'Kenya', 'capital': 'Nairobi'},
     {'timezones': ['Asia/Bishkek'], 'code': 'KG', 'continent': 'Asia', 'name': 'Kyrgyzstan', 'capital': 'Bishkek'},
     {'timezones': ['Pacific/Tarawa', 'Pacific/Enderbury', 'Pacific/Kiritimati'], 'code': 'KI', 'continent': 'Oceania', 'name': 'Kiribati', 'capital': 'Tarawa'},
-    {'timezones': ['Asia/Pyongyang'], 'code': 'KP', 'continent': 'Asia', 'name': 'North Korea', 'capital': 'Pyongyang'},
+    {'timezones': ['Asia/Pyongyang'], 'code': 'KP', 'continent': 'Asia', 'name': "North Korea", 'capital': 'Pyongyang'},
     {'timezones': ['Asia/Seoul'], 'code': 'KR', 'continent': 'Asia', 'name': 'South Korea', 'capital': 'Seoul'},
     {'timezones': ['Asia/Kuwait'], 'code': 'KW', 'continent': 'Asia', 'name': 'Kuwait', 'capital': 'Kuwait City'},
     {'timezones': ['Asia/Beirut'], 'code': 'LB', 'continent': 'Asia', 'name': 'Lebanon', 'capital': 'Beirut'},
@@ -210,10 +209,14 @@ def country(region):
     {'timezones': ['Europe/London'], 'code': 'GB', 'continent': 'Europe', 'name': 'United Kingdom', 'capital': 'London'},
     ]
     returncountries = []
+    twolettercode = []
     for x in range(len(countries)):
         if region in countries[x].get('timezones')[0]:
             returncountries.append(countries[x].get('name')) 
-    return(returncountries)
+    for x in range(len(countries)):
+        if region in countries[x].get('timezones')[0]:
+            twolettercode.append(countries[x].get('code')) 
+    return(returncountries,twolettercode)
 
 APIKEY = "quickstart-QUdJIGlzIGNvbWluZy4uLi4K" #WARNING, THIS IS THE DEFAULT API KEY. PLEASE UPDATE IT!
 
@@ -227,14 +230,10 @@ if(region == "US States"):
     for x in range(len(countries)):
         copyfile(curdir + '/Flags/' + countries[x] + '.png', flagsdir + '/' + countries[x] + '.png')
 else:
-    countries = country(region)
+    countries, twoletters = country(region)
     if len(os.listdir(flagsdir)) == 0:
-        for x in countries:
-            code = pycountry.countries.lookup(x)
-            if(code == None):
-                print("I could not find the flag for " + x + ". Please try to locate it yourself.")
-            else:
-                copyfile(curdir + '/Flags/' + code.alpha_2 + '.png', flagsdir + '/' + str(x) + '.png')
+        for x in range(len(countries)):
+            copyfile(curdir + '/Flags/' + twoletters[x] + '.png', flagsdir + '/' + str(countries[x]) + '.png')
 iterations, index = pick(['1','2','5','10'], "Number of iterations. The higher the number the longer it will take.")
 print(int(iterations))
 for x in tqdm(countries*int(iterations)):
