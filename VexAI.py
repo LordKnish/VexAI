@@ -235,8 +235,9 @@ else:
         for x in range(len(countries)):
             copyfile(curdir + '/Flags/' + twoletters[x] + '.png', flagsdir + '/' + str(countries[x]) + '.png')
 iterations, index = pick(['1','2','5','10'], "Number of iterations. The higher the number the longer it will take.")
-print(int(iterations))
-for x in tqdm(countries*int(iterations)):
+pbar = tqdm(countries*int(iterations))
+for x in pbar:
+    pbar.set_description("Processing %s" % x)
     r = requests.post(
         "https://api.deepai.org/api/text-generator",
         data={
