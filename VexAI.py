@@ -220,9 +220,14 @@ def country(region):
 
 APIKEY = "quickstart-QUdJIGlzIGNvbWluZy4uLi4K" #WARNING, THIS IS THE DEFAULT API KEY. PLEASE UPDATE IT!
 
+curdir = os.path.dirname(os.path.realpath(__file__))
+yesno, index = pick(['Yes','No'], "Should I automatically download the Flags? (note, if you downloaded flags.zip and extracted this is not needed)")
+if(yesno == "Yes"):
+    r = tqdm(requests.get('https://github.com/LordKnish/VexAI/raw/main/Flags.zip'))
+    with zipfile.ZipFile(curdir + "/Flags.zip", 'r') as zip_ref:
+        zip_ref.extractall(curdir)
 timestr = time.strftime("%Y%m%d-%H%M%S")
 region, index = pick(['America','Asia','Europe', 'Africa', 'Pacific', 'US States'], "Please select a region")
-curdir = os.path.dirname(os.path.realpath(__file__))
 flagsdir = curdir + '/Flags_' + region + "_" + timestr
 os.makedirs(flagsdir, exist_ok=True) 
 if(region == "US States"):
@@ -235,6 +240,7 @@ else:
         for x in range(len(countries)):
             copyfile(curdir + '/Flags/' + twoletters[x] + '.png', flagsdir + '/' + str(countries[x]) + '.png')
 iterations, index = pick(['1','2','5','10'], "Number of iterations. The higher the number the longer it will take.")
+print(int(iterations))
 pbar = tqdm(countries*int(iterations))
 for x in pbar:
     pbar.set_description("Processing %s" % x)
