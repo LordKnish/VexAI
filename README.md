@@ -11,7 +11,7 @@ You can see folders called "Americas flags" and "European Union Country Flags" T
 
 ## Installation instructions
 1. Download the zip of the github archive and unzip it to a folder that does not require admin perms to modify
-2. Unzip flags.zip to a /flags folder
+2. ~~Unzip flags.zip to a /flags folder~~ (No longer needed as the program will do it automatically)
 3. Pip install the requirements.txt file (pip install -r requirements.txt)
 4. Add your API key to the script 
 5. Run the script in command prompt. 
